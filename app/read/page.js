@@ -40,15 +40,14 @@ export default function ReadPage() {
 
 const styles = {
     container: {
-        maxWidth: '1400px',
-        margin: '50px auto',
-        padding: '20px',
+        margin: '0',
+        padding: '0',
         textAlign: 'center',
         background: 'linear-gradient(to right, #6a11cb, #2575fc)',
-        borderRadius: '12px',
         boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.2)',
         color: '#ffffff',
-        width: '90%',
+        height: '100vh',
+        width: '100vw',
     },
     header: {
         fontSize: '2.5rem',

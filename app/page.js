@@ -40,7 +40,15 @@ const ebooks = [
   { title: 'Selenium Testing Guide', file: '/ebooks/selenium.pdf' },
   { title: 'SQL Cheat Sheet', file: '/ebooks/SQL_Cheat_Sheet.pdf' },
   { title: 'SQL Notes', file: '/ebooks/SQL_notes.pdf' },
-  { title: 'Test Scenario vs Test Case', file: '/ebooks/TestscenarioVSTestcase.pdf' },
+  { title: 'Automation Testing Common Hurdles', file: '/ebooks/automationtestingcommonhurdles.pdf' },
+  { title: 'Cucumber', file: '/ebooks/cucumber.pdf' },
+  { title: 'Jmeter', file: '/ebooks/jmeter.pdf' },
+  { title: 'JS Modern Concept', file: '/ebooks/jsmodernconcepts.pdf' },
+  { title: 'Kubernetes', file: '/ebooks/kubernetes.pdf' },
+  { title: 'QnA for Tetings', file: '/ebooks/qnatesting.pdf' },
+  { title: 'Robot Framework', file: '/ebooks/robotframework.pdf' },
+  { title: 'Testing Tools', file: '/ebooks/testingtools.pdf' },
+  { title: 'Learn the Xpath', file: '/ebooks/xpath.pdf' },
 ];
 
 export default function Home() {
