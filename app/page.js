@@ -126,7 +126,7 @@ export default function Home() {
 
     I wanted to share this excellent SDET note titled "${book.title}". You can access it here: https://sdet.noiwic.com${book.file}.
 
-    This resource has been developed by Aaqib Abbas for the SDET community to help aspiring and experienced professionals.
+    This resource has been collected by Aaqib Abbas for the SDET community to help aspiring and experienced professionals.
     
     Best regards,
     Aaqib Abbas`;
