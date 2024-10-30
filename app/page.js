@@ -277,6 +277,7 @@ const styles = {
     padding: '10px',
     fontWeight: 'bold',
     fontSize: '1rem',
+    color: '#000000',
   },
   actionCell: {
     padding: '10px',
