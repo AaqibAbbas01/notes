@@ -1,70 +1,110 @@
 "use client"; // Add this directive at the top
 
-
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import IconFolderDownloadFill from './components/IconFolderDownloadFill';
+import IconShareFill from './components/IconShareFill';
 import { getDocument } from 'pdfjs-dist/build/pdf';
 import 'pdfjs-dist/build/pdf.worker.entry';
 
-const ebooks = [
-  { title: 'API Handbook', file: '/ebooks/apihandbook.pdf' },
-  { title: 'API Questions', file: '/ebooks/apiquestions.pdf' },
-  { title: 'API Test Cases', file: '/ebooks/apitestcases.pdf' },
-  { title: 'API Testing Guide', file: '/ebooks/apitesting.pdf' },
-  { title: 'Array JavaScript Methods', file: '/ebooks/arrayjavascript.pdf' },
-  { title: 'Basic API Q&A', file: '/ebooks/basicapiqa.pdf' },
-  { title: 'BDD with Cucumber', file: '/ebooks/bddcucumber.pdf' },
-  { title: 'Docker Basics', file: '/ebooks/docker1.pdf' },
-  { title: 'ES6 Array Methods in JavaScript', file: '/ebooks/es6arraymethodsjavascript.pdf' },
-  { title: 'Git Cheat Sheet', file: '/ebooks/gitsheet.pdf' },
-  { title: 'ISTQB Foundation Level Cheat Sheet', file: '/ebooks/istqbcheetsheet.pdf' },
-  { title: 'Java Interview Questions', file: '/ebooks/javaquestions.pdf' },
-  { title: 'JavaScript Basics - Part 1', file: '/ebooks/javascript-1.pdf' },
-  { title: 'JavaScript Array Methods', file: '/ebooks/javascriptarraymethods.pdf' },
-  { title: 'JavaScript: Beginner to Advanced', file: '/ebooks/javascriptbeginnertoadvance.pdf' },
-  { title: 'JavaScript Cheat Sheet', file: '/ebooks/javascriptcheetsheat.pdf' },
-  { title: 'JavaScript Destructuring', file: '/ebooks/javascriptdestructing.pdf' },
-  { title: 'JavaScript Objects', file: '/ebooks/javascriptobject.pdf' },
-  { title: 'JavaScript Reduce Method', file: '/ebooks/javascriptreduceMethod.pdf' },
-  { title: 'JavaScript Shorthands', file: '/ebooks/javascriptshorthands.pdf' },
-  { title: 'JavaScript Shorthands - Part 2', file: '/ebooks/javascriptshorthands2.pdf' },
-  { title: 'JavaScript Tricks', file: '/ebooks/javascripttrick.pdf' },
-  { title: 'Jenkins Top 50 Questions', file: '/ebooks/jenkinstop50.pdf' },
-  { title: 'JavaScript Dos and Don\'ts', file: '/ebooks/jsdondont.pdf' },
-  { title: 'Working with JSON', file: '/ebooks/json.pdf' },
-  { title: 'Kusho API Testing Guide', file: '/ebooks/kushapi.pdf' },
-  { title: 'Playwright Testing - Part 4', file: '/ebooks/playwright4.pdf' },
-  { title: 'Playwright with Docker', file: '/ebooks/playwrightwithdocker.pdf' },
-  { title: 'Postman Interview Questions', file: '/ebooks/postmanquestions.pdf' },
-  { title: 'SDET Interview Questions', file: '/ebooks/sdet_questions.pdf' },
-  { title: 'Selenium Testing Guide', file: '/ebooks/selenium.pdf' },
-  { title: 'SQL Cheat Sheet', file: '/ebooks/SQL_Cheat_Sheet.pdf' },
-  { title: 'SQL Notes', file: '/ebooks/SQL_notes.pdf' },
-  { title: 'Automation Testing Common Hurdles', file: '/ebooks/automationtestingcommonhurdles.pdf' },
-  { title: 'Cucumber', file: '/ebooks/cucumber.pdf' },
-  { title: 'Jmeter', file: '/ebooks/jmeter.pdf' },
-  { title: 'JS Modern Concept', file: '/ebooks/jsmodernconcepts.pdf' },
-  { title: 'Kubernetes', file: '/ebooks/kubernetes.pdf' },
-  { title: 'QnA for Tetings', file: '/ebooks/qnatesting.pdf' },
-  { title: 'Robot Framework', file: '/ebooks/robotframework.pdf' },
-  { title: 'Testing Tools', file: '/ebooks/testingtools.pdf' },
-  { title: 'Learn the Xpath', file: '/ebooks/xpath.pdf' },
-];
+// Organizing documents into categories
+const ebooks = {
+  JavaScript: [
+    { title: 'JavaScript ES6 Interview Guide', file: '/ebooks/JavaScript_ES6_Interview_Guide_1730402550.pdf' },
+    { title: 'JavaScript Objects Overview', file: '/ebooks/javascriptobject2.pdf' },
+    { title: 'JavaScript Basics - Part 1', file: '/ebooks/javascript-1.pdf' },
+    { title: 'JavaScript Overview', file: '/ebooks/javascript1.pdf' },
+    { title: 'JavaScript Array Methods', file: '/ebooks/javascriptarraymethods.pdf' },
+    { title: 'JavaScript: Beginner to Advanced', file: '/ebooks/javascriptbeginnertoadvance.pdf' },
+    { title: 'JavaScript Cheat Sheet', file: '/ebooks/javascriptcheetsheat.pdf' },
+    { title: 'JavaScript Destructuring', file: '/ebooks/javascriptdestructing.pdf' },
+    { title: 'JavaScript Objects Guide', file: '/ebooks/javascriptobject.pdf' },
+    { title: 'JavaScript Reduce Method', file: '/ebooks/javascriptreduceMethod.pdf' },
+    { title: 'JavaScript Shorthands', file: '/ebooks/javascriptshorthands.pdf' },
+    { title: 'JavaScript Shorthands - Part 2', file: '/ebooks/javascriptshorthands2.pdf' },
+    { title: 'JavaScript Tricks', file: '/ebooks/javascripttrick.pdf' },
+    { title: 'JavaScript Dos and Don\'ts', file: '/ebooks/jsdondont.pdf' },
+    { title: 'Modern JavaScript Concepts', file: '/ebooks/jsmodernconcepts.pdf' },
+  ],
+  Docker: [
+    { title: 'Docker Basics', file: '/ebooks/docker1.pdf' },
+    { title: 'Docker Commands Guide', file: '/ebooks/dockerCommands.pdf' }
+  ],
+  API: [
+    { title: 'API Handbook', file: '/ebooks/apihandbook.pdf' },
+    { title: 'API Questions', file: '/ebooks/apiquestions.pdf' },
+    { title: 'API Test Cases', file: '/ebooks/apitestcases.pdf' },
+    { title: 'API Testing Guide', file: '/ebooks/apitesting.pdf' },
+    { title: 'Types of APIs', file: '/ebooks/Types_of_APIs_1730402841.pdf' },
+    { title: 'Kusho API Testing Guide', file: '/ebooks/kushapi.pdf' },
+    { title: 'Free API for QA', file: '/ebooks/freeapiforqa.pdf' },
+    { title: 'API Test Plan', file: '/ebooks/apitestplan.pdf' }
+  ],
+  Testing: [
+    { title: 'Automation Testing - Common Hurdles', file: '/ebooks/automationtestingcommonhurdles.pdf' },
+    { title: 'Basic API Q&A', file: '/ebooks/basicapiqa.pdf' },
+    { title: 'BDD with Cucumber', file: '/ebooks/bddcucumber.pdf' },
+    { title: 'Cucumber Framework Guide', file: '/ebooks/cucumber.pdf' },
+    { title: 'ISTQB Foundation Level Cheat Sheet', file: '/ebooks/istqbcheetsheet.pdf' },
+    { title: 'Postman Interview Questions', file: '/ebooks/postmanquestions.pdf' },
+    { title: 'Q&A for Testing', file: '/ebooks/qnatesting.pdf' },
+    { title: 'Robot Framework Guide', file: '/ebooks/robotframework.pdf' },
+    { title: 'SDET Interview Questions', file: '/ebooks/sdet_questions.pdf' },
+    { title: 'Selenium Project Framework Structure', file: '/ebooks/Selenium_Project_Framework_Structure_1730044184.pdf' },
+    { title: 'Selenium Essentials', file: '/ebooks/selenium.pdf' },
+    { title: 'Testing Tools Overview', file: '/ebooks/testingtools.pdf' },
+    { title: 'Test Scenarios vs Test Cases', file: '/ebooks/TestscenarioVStestcase.pdf' },
+    { title: 'Test Case Documentation', file: '/ebooks/Testcases_Document_1730049375.pdf' }
+  ],
+  Database: [
+    { title: 'MongoDB Cheat Sheet', file: '/ebooks/MongoDB_cheatsheet_1730044214.pdf' },
+    { title: 'SQL Cheat Sheet', file: '/ebooks/SQL_Cheat_Sheet.pdf' },
+    { title: 'SQL Notes', file: '/ebooks/SQL_notes.pdf' },
+    { title: 'SQL Query Guide', file: '/ebooks/Sqlques.pdf' }
+  ],
+  DevOps: [
+    { title: 'Jenkins Essentials', file: '/ebooks/Jenkins_1730325033.pdf' },
+    { title: 'Jenkins Top 50 Questions', file: '/ebooks/jenkinstop50.pdf' },
+    { title: 'K8s Essentials', file: '/ebooks/K8s_1730402789.pdf' },
+    { title: 'Kubernetes Basics', file: '/ebooks/kubernetes.pdf' }
+  ],
+  WebDevelopment: [
+    { title: 'HTML Forms Guide', file: '/ebooks/HTML_Forms_1729836078.pdf' },
+    { title: 'Algorithm Essentials', file: '/ebooks/algo.pdf' },
+    { title: 'JSON Fundamentals', file: '/ebooks/json.pdf' },
+    { title: 'Object-Oriented Programming Guide', file: '/ebooks/oops.pdf' },
+    { title: 'Tailwind CSS Essentials', file: '/ebooks/tailand_css_1730325452.pdf' }
+  ],
+  Playwright: [
+    { title: 'Playwright Testing Guide', file: '/ebooks/playwright4.pdf' },
+    { title: 'Playwright with Docker', file: '/ebooks/playwrightwithdocker.pdf' }
+  ],
+  Selenium: [
+    { title: 'Explaining Automation Framework', file: '/ebooks/explainautomationframework.pdf' },
+    { title: 'POM in Selenium', file: '/ebooks/POM_in_Selenium_1730325569.pdf' },
+    { title: 'Part 1 Guide', file: '/ebooks/PART_01_1730325440.pdf' }
+  ],
+  Git: [
+
+    { title: 'Git Cheat Sheet', file: '/ebooks/gitsheet.pdf' },
+  ]
+};
+
 
 export default function Home() {
   const [thumbnails, setThumbnails] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [filteredEbooks, setFilteredEbooks] = useState(ebooks);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ebooksPerPage] = useState(5);
-  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const generateThumbnails = async () => {
       const thumbs = {};
-      for (const book of ebooks) {
-        const thumbnail = await generateThumbnail(book.file);
-        thumbs[book.file] = thumbnail;
+      for (const category in ebooks) {
+        for (const book of ebooks[category]) {
+          const thumbnail = await generateThumbnail(book.file);
+          thumbs[book.file] = thumbnail;
+        }
       }
       setThumbnails(thumbs);
     };
@@ -72,17 +112,14 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setFilteredEbooks(
-      ebooks.filter((book) =>
-        book.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-  }, [searchQuery]);
-
-  // Pagination Logic
-  const indexOfLastEbook = currentPage * ebooksPerPage;
-  const indexOfFirstEbook = indexOfLastEbook - ebooksPerPage;
-  const currentEbooks = filteredEbooks.slice(indexOfFirstEbook, indexOfLastEbook);
+    if (selectedCategory === 'All') {
+      setFilteredEbooks(ebooks);
+    } else {
+      setFilteredEbooks({
+        [selectedCategory]: ebooks[selectedCategory]
+      });
+    }
+  }, [selectedCategory, searchQuery]);
 
   const generateThumbnail = async (fileUrl) => {
     const loadingTask = getDocument(fileUrl);
@@ -104,23 +141,6 @@ export default function Home() {
     return canvas.toDataURL();
   };
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
-
-  const exportToCSV = () => {
-    const csvContent = [
-      ['Title', 'Link'],
-      ...filteredEbooks.map(book => [book.title, `read?file=${encodeURIComponent(book.file)}`])
-    ].map(e => e.join(",")).join("\n");
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute('download', 'ebooks.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const handleShare = (book) => {
     const message = `Hello,
 
@@ -135,63 +155,83 @@ export default function Home() {
     window.open(whatsappUrl, '_blank');
   };
 
+  const filterBooksByQuery = () => {
+    const query = searchQuery.toLowerCase();
+    const filtered = {};
+
+    for (const category in ebooks) {
+      const matchedBooks = ebooks[category].filter((book) =>
+        book.title.toLowerCase().includes(query)
+      );
+      if (matchedBooks.length) {
+        filtered[category] = matchedBooks;
+      }
+    }
+    setFilteredEbooks(filtered);
+  };
+
+  useEffect(() => {
+    filterBooksByQuery();
+  }, [searchQuery]);
+
   return (
-    <div style={darkMode ? styles.darkWrapper : styles.wrapper}>
+    <div style={styles.wrapper}>
       <h1 style={styles.heading}>SDET Notes Collection by Aaqib Abbas</h1>
-      <button onClick={toggleDarkMode} style={styles.darkModeButton}>
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
-      <input
-        type="text"
-        placeholder="Search notes..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        style={styles.searchInput}
-      />
-      <button onClick={exportToCSV} style={styles.exportButton}>Export to CSV</button>
-      <table style={styles.table}>
-        <thead>
-          <tr style={styles.tableHeader}>
-            <th style={styles.tableHeaderCell}>Thumbnail</th>
-            <th style={styles.tableHeaderCell}>Title</th>
-            <th style={styles.tableHeaderCell}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentEbooks.map((book, index) => (
-            <tr key={index} style={styles.tableRow}>
-              <td style={styles.thumbnailCell}>
-                {thumbnails[book.file] ? (
-                  <img
-                    src={thumbnails[book.file]}
-                    alt="PDF Thumbnail"
-                    style={styles.thumbnail}
-                  />
-                ) : (
-                  <span style={styles.loadingText}>Loading...</span>
-                )}
-              </td>
-              <td style={styles.titleCell}>{book.title}</td>
-              <td style={styles.actionCell}>
-                <Link href={`/read?file=${encodeURIComponent(book.file)}`}>
-                  <button style={styles.readButton}>Read</button>
-                </Link>
-                <a href={book.file} download={book.title}>
-                  <button style={styles.downloadButton}>Download</button>
-                </a>
-                <button style={styles.shareButton} onClick={() => handleShare(book)}>
-                  Share on WhatsApp
-                </button>
-              </td>
-            </tr>
+
+      <div style={styles.filterContainer}>
+        <input
+          type="text"
+          placeholder="Search notes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.searchInput}
+        />
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          style={styles.select}
+        >
+          <option value="All">All</option>
+          {Object.keys(ebooks).map((category, index) => (
+            <option key={index} value={category}>{category}</option>
           ))}
-        </tbody>
-      </table>
-      <div style={styles.pagination}>
-        {Array.from({ length: Math.ceil(filteredEbooks.length / ebooksPerPage) }).map((_, i) => (
-          <button key={i} onClick={() => setCurrentPage(i + 1)} style={styles.paginationButton}>
-            {i + 1}
-          </button>
+        </select>
+      </div>
+
+      <div style={styles.thumbnailGrid}>
+        {Object.keys(filteredEbooks).map((category) => (
+          <div key={category} style={styles.categoryRow}>
+            <h2 style={styles.categoryHeading}>{category}</h2>
+            <div style={styles.thumbnailContainer}>
+              {filteredEbooks[category].map((book, index) => (
+                <div key={index} style={styles.thumbnailCard}>
+                  {thumbnails[book.file] ? (
+                    <img
+                      src={thumbnails[book.file]}
+                      alt="PDF Thumbnail"
+                      style={styles.thumbnail}
+                    />
+                  ) : (
+                    <span style={styles.loadingText}>Loading...</span>
+                  )}
+                  <p style={styles.title}>{book.title}</p>
+                  <div style={styles.actions}>
+                    <Link href={`/read?file=${encodeURIComponent(book.file)}`}>
+                      <button style={styles.readButton}>Read</button>
+                    </Link>
+                    <div style={styles.iconContainer}>
+                      <a href={book.file} download={book.title} style={styles.iconLink}>
+                        <IconFolderDownloadFill style={styles.icon} title="Download" />
+                      </a>
+                      <button onClick={() => handleShare(book)} style={styles.iconButton}>
+                        <IconShareFill style={styles.icon} title="Share" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -200,167 +240,106 @@ export default function Home() {
 
 const styles = {
   wrapper: {
-    height: '100vh',
-    width: '100vw',
-    margin: '0',
-    padding: '0',
-    display: 'flex',
-    flexDirection: 'column',
-    background: 'linear-gradient(135deg, #6a11cb, #2575fc)',
-  },
-  darkWrapper: {
-    height: '100vh',
-    width: '100vw',
-    margin: '0',
-    padding: '0',
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#2c3e50',
+    padding: '20px',
+    backgroundColor: '#f3f7fa',
+    fontFamily: 'Arial, sans-serif',
   },
   heading: {
     textAlign: 'center',
     margin: '20px 0',
-    color: '#ffffff',
     fontSize: '2.5rem',
-    fontWeight: 'bold',
-  },
-  searchInput: {
-    width: '90%',
-    margin: '0 auto',
-    padding: '10px',
-    fontSize: '1rem',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-  },
-  exportButton: {
-    width: '150px',
-    margin: '20px auto',
-    padding: '10px',
-    backgroundColor: '#2980b9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  darkModeButton: {
-    width: '150px',
-    margin: '0 auto 20px auto',
-    padding: '10px',
-    backgroundColor: '#1abc9c',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  table: {
-    width: '90%',
-    margin: '0 auto',
-    borderCollapse: 'collapse',
-    backgroundColor: '#ffffff',
-    borderRadius: '12px',
-    overflow: 'hidden',
-  },
-  tableHeader: {
-    backgroundColor: '#2c3e50',
-    color: '#ffffff',
-  },
-  tableHeaderCell: {
-    padding: '15px',
-    fontSize: '1rem',
+    color: '#2c3e50',
     fontWeight: '600',
   },
-  tableRow: {
-    borderBottom: '1px solid #e2e6ea',
-  },
-  thumbnailCell: {
-    padding: '10px',
-    width: '15%',
-  },
-  thumbnail: {
-    width: '50px',
-    height: '50px',
-    borderRadius: '6px',
-  },
-  titleCell: {
-    padding: '10px',
-    fontWeight: 'bold',
-    fontSize: '1rem',
-    color: '#000000',
-  },
-  actionCell: {
-    padding: '10px',
+  filterContainer: {
     display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '20px 0',
     gap: '10px',
-    flexWrap: 'wrap',
   },
-  readButton: {
-    padding: '8px 12px',
-    backgroundColor: '#2980b9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
+  searchInput: {
+    flex: '1',
+    padding: '12px',
+    fontSize: '1rem',
+    borderRadius: '8px',
+    border: '1px solid #b0bec5',
+    backgroundColor: '#ffffff',
+    color: '#333',
   },
-  downloadButton: {
-    padding: '8px 12px',
-    backgroundColor: '#27ae60',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
+  select: {
+    padding: '12px',
+    fontSize: '1rem',
+    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    color: '#333',
+    border: '1px solid #b0bec5',
+    width: '150px',
   },
-  shareButton: {
-    padding: '8px 12px',
-    backgroundColor: '#25D366',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
+  categoryRow: {
+    marginBottom: '30px',
   },
-  pagination: {
-    margin: '20px auto',
+  categoryHeading: {
+    fontSize: '1.75rem',
+    color: '#34495e',
+    fontWeight: '500',
+    borderBottom: '2px solid #3498db',
+    paddingBottom: '5px',
+  },
+  thumbnailContainer: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    gap: '20px',
+    overflowX: 'auto',
+    padding: '10px 0',
+  },
+  thumbnailCard: {
+    minWidth: '180px',
+    borderRadius: '12px',
+    padding: '15px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
     textAlign: 'center',
   },
-  paginationButton: {
-    padding: '10px',
-    margin: '0 5px',
-    backgroundColor: '#2980b9',
-    color: '#fff',
+  thumbnail: {
+    width: '100%',
+    height: 'auto',
+    borderRadius: '6px',
+    marginBottom: '10px',
+  },
+  loadingText: {
+    fontSize: '0.9rem',
+    color: '#95a5a6',
+  },
+  title: {
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
+    color: '#2c3e50',
+  },
+  actions: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  readButton: {
+    padding: '8px 15px',
+    backgroundColor: '#3498db',
+    color: '#ffffff',
     border: 'none',
     borderRadius: '5px',
+  },
+  iconContainer: {
+    display: 'flex',
+    gap: '10px',
+  },
+  icon: {
+    fontSize: '1.5rem',
     cursor: 'pointer',
   },
-
-  // Media query for mobile responsiveness
-  '@media (max-width: 600px)': {
-    wrapper: {
-      padding: '10px',
-    },
-    searchInput: {
-      width: '100%',
-      padding: '8px',
-    },
-    tableHeaderCell: {
-      padding: '10px',
-      fontSize: '0.9rem',
-    },
-    tableRow: {
-      flexDirection: 'column',
-    },
-    readButton: {
-      padding: '6px 10px',
-    },
-    downloadButton: {
-      padding: '6px 10px',
-    },
-    shareButton: {
-      padding: '6px 10px',
-    },
-    paginationButton: {
-      padding: '6px 8px',
-    },
-  },
 };
+
+
 
 
 
